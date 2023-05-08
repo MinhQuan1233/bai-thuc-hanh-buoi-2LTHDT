@@ -1,0 +1,136 @@
+package bai2;
+
+public class CD {
+	
+private int maCD;
+private String tuaCD;
+private int sobh;
+private float giathanh;
+
+public CD() {
+	
+}
+public CD(int maCD, String tuaCD, int sobh,  float giathanh ) {
+	this.maCD = maCD;
+	this.tuaCD = tuaCD;
+	this.sobh = sobh;
+	this.giathanh = giathanh;
+}
+public int getmaCD() {
+	return maCD;
+}
+public void setmaCD(int maCD) {
+	this.maCD = maCD;
+}
+public String gettuaCD() {
+	return tuaCD;
+}
+public void settuaCD(String tuaCD) {
+	this.tuaCD = tuaCD;
+}
+public int getsobh() {
+	return sobh;
+}
+public void setsobh(int sobh) {
+	this.sobh = sobh;
+}
+public float getgiathanh() {
+	return giathanh;
+}
+public void setgiathanh(float giathanh) {
+	this.giathanh = giathanh;
+}
+@Override
+public String toString() {
+	return maCD + "-" + tuaCD + "-" + sobh + "-" + giathanh;
+}
+}
+package bai2;
+
+import org.w3c.dom.ls.LSOutput;
+import java.security.spec.RSAOtherPrimeInfo;
+import java.util.Scanner;
+
+public class main2 {
+	
+	static Scanner sc = new Scanner(System.in);
+	static void nhapCD(CD cd) {
+	System.out.print("nhap ma cd: ");
+	cd.setmaCD(sc.nextInt());
+	sc.nextLine();
+	System.out.print("nhap ten cd: ");
+	cd.settuaCD(sc.nextLine());
+    System.out.print("nhap so luong bai hat: ");
+	cd.setsobh(sc.nextInt());
+	System.out.print("nhap gia thanh: ");
+	cd.setgiathanh(sc.nextFloat());
+	
+	}
+	public static void main(String[] args) {
+        CD cd[] = null;
+        int a, n = 0;
+        boolean flag = true;
+        do {
+            System.out.println("Bạn chọn làm gì?");
+            System.out.println("1.Nhập thông tin CD \n" +
+                    "2.Xuất danh sách Album.\n" + "3.Tính tổng giá thành \n" + "4.Tổng số lượng CD \n" +
+                    "5.Sắp xếp giảm dần theo giá thành\n"+"6.Sắp xếp tăng dần theo tựa CD\n"+"Nhập số khác để thoát");
+            a = sc.nextInt();
+            switch (a) {
+            case 1:
+                System.out.println("Nhập số lượng CD : ");
+                n = sc.nextInt();
+                cd = new CD[n];
+                for (int i = 0; i < n; i++) {
+                    System.out.println("CD thứ " + (i + 1)+": ");
+                    cd[i] = new CD();
+                    nhapCD(cd[i]);
+                }
+                break;
+            case 3:
+                int tong = 0;
+                for (int i = 0; i < n; i++) {
+                    tong += cd[i].getgiathanh();
+                }
+                System.out.println("" +
+                        "Tổng giá thành là : " + tong);
+                break;
+            case 4:
+                System.out.println("Tổng số lượng CD là : " + n);
+                break;
+            case 5:
+                CD temp = cd[0];
+                for (int i = 0; i < n - 1; i++) {
+                    for (int j = i + 1; j < n; j++) {
+                        if (cd[i].getgiathanh() < cd[j].getgiathanh()) {
+                            temp = cd[j];
+                            cd[j] = cd[i];
+                            cd[i] = temp;
+                        }
+                    }
+                }
+                System.out.println("Sắp xếp thành công, Nhập số 2 để kiểm tra!");
+                break;
+            case 6:
+                temp = cd[0];
+                for (int i = 0; i < n - 1; i++) {
+                    for (int j = i + 1; j < n; j++) {
+                        if (cd[i].gettuaCD().compareTo(cd[j].gettuaCD())>0) {
+                            temp = cd[j];
+                            cd[j] = cd[i];
+                            cd[i] = temp;
+                        }
+                    }
+                }
+                System.out.println("Sắp xếp thành công, Nhập số 2 để kiểm tra!");
+                break;
+            default:
+                System.out.println("Goodbye");
+                flag = false;
+                break; 
+}
+	}while (flag);
+	  
+}
+}
+
