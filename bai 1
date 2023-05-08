@@ -1,0 +1,194 @@
+package bai2;
+
+import java.text.NumberFormat;
+import java.util.Scanner;
+public class account {	
+	private long sotk;
+	private String tentk;
+	private double sotientk;
+    
+	Scanner sc =new Scanner(System.in);
+	
+	public account() {		
+	}
+public account(long sotk, String tentk, double sotientk ) {
+	this.sotk = sotk;
+	this.tentk = tentk;
+	this.sotientk = sotientk;
+}
+public long getsotk() {
+	return this.sotk;
+}
+public void setsotk(long sotk) {
+	this.sotk = sotk;
+}
+public String gettentk() {
+	return this.tentk;
+}
+public void settentk(String tentk) {
+	this.tentk = tentk;
+}
+public double getsotientk() {
+	return this.sotientk;
+}
+public void setsotientk(double sotientk) {
+	this.sotientk =sotientk;
+}
+@Override
+public String toString() {
+	NumberFormat currencyVND = NumberFormat.getCurrencyInstance();
+	String str1 = currencyVND.format(sotientk);
+	return sotk + "-" + tentk + "-" + str1;
+}
+
+public double naptien() {
+	double nap;
+	System.out.print("Nhap vao so tien can nap: ");
+	nap = sc.nextDouble();
+	if(nap >= 0) {
+		sotientk = nap + sotientk;
+		NumberFormat currencyVND = NumberFormat.getCurrencyInstance();
+		String str1 = currencyVND.format(nap);
+		System.out.println("ban vua nap" + str1 + "vao tai khoan" );
+	}else {
+		System.out.println("so tien nap vao khong hop le");
+	}
+	return nap;		
+}
+public double ruttien() {
+	double phi = 4;
+	double rut;
+	System.out.print("nhap vao so tien can rut: ");
+	rut = sc.nextDouble();
+	if(rut <= (sotientk - phi)) {
+		sotientk = sotientk - (rut - phi);
+		NumberFormat currencyVND = NumberFormat.getCurrencyInstance();
+		String str1 = currencyVND.format(rut);
+		System.out.println("ban vua rut" + str1 + "tu tai khoan");
+	}else {
+		System.out.println("so tien muon rut khong hop le");
+	}
+		return rut;
+}
+public double daohan() {
+	double laisuat = 0.035;
+	sotientk = sotientk + sotientk * laisuat;
+	NumberFormat currencyVND = NumberFormat.getCurrencyInstance();
+	String str1 = currencyVND.format(sotientk);
+	System.out.println("ban vua duoc" + str1 + "tu dao han 1 thang");
+	return sotientk;
+}
+void intk() {
+	NumberFormat currencyVND = NumberFormat.getCurrencyInstance();
+	String str1 = currencyVND.format(sotientk);
+    System.out.printf("%-10d %-20s %-20s \n", sotk, tentk,  str1);
+}
+}
+package bai2;
+
+import java.util.Scanner;
+public class main {
+	static Scanner sc = new Scanner(System.in);
+	static void nhaptk(account tk) {
+		System.out.println("nhap so tai khoan: ");
+		tk.setsotientk(sc.nextInt());
+		sc.nextLine();
+		System.out.println("nhap ten tai khoan: ");
+		tk.settentk(sc.nextLine());
+		tk.setsotientk(50000);
+	}
+	public static void main(String[] args) {
+		account a[] = null;
+		int b, n = 0;
+		long s, d, c, f;
+		boolean flag = true;
+		do {
+			System.out.println("1.Nhap thong tin khach hang\n" + "2.in thong tin khanch hang\n" + "3.nap tien\n" + "4.rut tien\n" + "5.chuyen khoan\n " + "6.ket thuc");
+			b = sc.nextInt();
+			switch (b) {
+			case 1:
+				System.out.println("nhap so luong kach hang: ");
+				n = sc.nextInt();
+				a = new account[n];
+				for( int i = 0; i < n; i++) {
+					System.out.println("khach hang so:  "+ (i + 1));
+					a[i] = new account();
+					nhaptk(a[i]);
+				}
+				break;
+			case 2:
+				 System.out.printf("%-10d %-20s %-20s\n", "so tai khoan", "ten tai khoan", "so tien tai khoan");
+                 for (int i = 0; i < n; i++) {
+                     a[i].intk();
+                 }
+                 break;
+			case 3:
+                System.out.println("nhap so tien tai khoan can nap ");
+                s = sc.nextLong();
+                for (int i = 0; i < n; i++) {
+                    d = a[i].getsotk();
+                    if (s == d) {
+                        System.out.println("chon tai khoan: " + d);
+                        a[i].naptien();
+                    } else {
+                        System.out.println("");
+                    }
+                }
+                break; 
+			case 4:
+				 System.out.println("nhap so tien can rut: ");
+				 s = sc.nextLong();
+				 for( int i = 0; i < n; i++) {
+					d = a[i].getsotk();
+					if(s == d) {
+						System.out.println("chon tai khoan: " + d);
+						a[i].ruttien();
+					}
+				 }
+				break;
+			case 5:
+				double chuyen, nhan;
+				double tienchuyen = 0;
+				System.out.println("nhap so tai khoan can chuyen tien: ");
+				s = sc.nextLong();
+				System.out.print("nhap so tai khoan nhan tien: ");
+				c = sc.nextLong();
+				for(int i= 0; i < n; i++) {
+					d = a[i].getsotk();
+					if(s == d) {
+						chuyen = a[i].getsotientk();
+						for(int j = 0; j < n; j++) {
+							f = a[j].getsotk();
+							if(c == d) {
+								nhan = a[j].getsotientk();
+								System.out.println("nhan so tien can chuyen");
+								if(tienchuyen <= chuyen) {
+									chuyen = chuyen - tienchuyen;
+									nhan = nhan + tienchuyen;
+									a[i].setsotientk(chuyen);
+									a[j].setsotientk(nhan);
+									 System.out.println("tai khoan so " + d + " vua chuyen: $" + tienchuyen);
+                                     System.out.println("tai khoan so " + f + " vua nhan: $" + tienchuyen);
+                                 } else {
+                                     System.out.println("so tien khong hop le");
+                                 }
+                             } else {
+                                 System.out.println("");
+                             }
+                         }
+                     } else {
+                         System.out.println("");
+                     }
+                 }
+                 break;
+                 default:
+                	 System.out.println("tam biet");
+                	 flag = false;
+                	 break;
+								
+							}
+						}while (flag);
+					}
+}
+
+
